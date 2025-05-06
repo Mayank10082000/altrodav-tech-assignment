@@ -3,7 +3,7 @@ import Activity from "../models/activity.model.js";
 
 export const createBooking = async (req, res) => {
   try {
-    const { userId } = req.user._id;
+    const userId = req.user._id;
 
     const { activityId } = req.body;
 
@@ -34,8 +34,8 @@ export const createBooking = async (req, res) => {
 
 export const getMyBookings = async (req, res) => {
   try {
-    const { userId } = req.user._id;
-    const bookings = await Booking.find({ userId });
+    const userId = req.user._id;
+    const bookings = await Booking.find({ userId }).populate("activityId");
 
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });

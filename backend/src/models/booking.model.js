@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
 
-const bookingSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const bookingSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    activityId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Activity",
+      required: true,
+    },
   },
-  activityId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Activity",
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 const Booking = mongoose.model("Booking", bookingSchema);
 
