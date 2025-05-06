@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  activities: [{ type: mongoose.Schema.Types.ObjectId, ref: "Activity" }],
 });
 
 const User = mongoose.model("User", userSchema);
