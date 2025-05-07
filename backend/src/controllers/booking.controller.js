@@ -4,15 +4,9 @@ import Activity from "../models/activity.model.js";
 export const createBooking = async (req, res) => {
   try {
     const userId = req.user._id;
-
     const { activityId } = req.body;
 
-    if (!activityId) {
-      return res.status(400).json({ message: "Activity ID is required" });
-    }
-
     const activity = await Activity.findById(activityId);
-
     if (!activity) {
       return res.status(400).json({ message: "Activity not found" });
     }
@@ -21,10 +15,13 @@ export const createBooking = async (req, res) => {
       return res.status(400).json({ message: "Activity is already booked" });
     }
 
-    const booking = await Booking.create({ userId, activityId });
+    const booking = await Booking.create({
+      userId,
+      activityId,
+      isBooked: true,
+    });
 
-    activity.isBooked = true;
-    await activity.save();
+    await booking.save();
 
     return res.status(200).json(booking);
   } catch (error) {
@@ -35,11 +32,8 @@ export const createBooking = async (req, res) => {
 export const getMyBookings = async (req, res) => {
   try {
     const userId = req.user._id;
-    const bookings = await Booking.find({ userId }).populate("activityId");
 
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+    const bookings = await Booking.find({ userId }).populate("activityId");
 
     if (bookings.length === 0) {
       return res.status(404).json({ message: "No bookings found" });

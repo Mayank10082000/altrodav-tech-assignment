@@ -12,6 +12,10 @@ const bookingSchema = new mongoose.Schema(
       ref: "Activity",
       required: true,
     },
+    isBooked: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
