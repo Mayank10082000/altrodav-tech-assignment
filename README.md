@@ -1,17 +1,14 @@
 # Activity Booking System
 
-A full-stack web application for managing and booking activities, built with Node.js, Express, and MongoDB.
+A backend application for managing activities and bookings, built with Node.js, Express, and MongoDB.
 
 ## Features
 
-- User Authentication (Signup/Login)
-- Activity Management
-- Booking System
-- Email Notifications
-- Secure Password Handling
+- User Authentication (Signup/Login/Logout)
+- Activity Listing
+- Booking Management
+- Protected Routes
 - Input Validation
-- CORS Enabled
-- Cookie-based Authentication
 
 ## Tech Stack
 
@@ -22,7 +19,6 @@ A full-stack web application for managing and booking activities, built with Nod
 - MongoDB (Mongoose)
 - JWT Authentication
 - bcrypt for Password Hashing
-- Nodemailer for Email Notifications
 - Joi for Input Validation
 - CORS for Cross-Origin Resource Sharing
 - Cookie Parser for Cookie Management
@@ -35,9 +31,9 @@ backend/
 │   ├── controllers/    # Request handlers
 │   ├── models/        # Database models
 │   ├── routes/        # API routes
-│   ├── middlewares/   # Custom middlewares
+│   ├── middlewares/   # Authentication middleware
 │   ├── validators/    # Input validation schemas
-│   ├── lib/          # Utility functions
+│   ├── lib/          # Database connection
 │   └── index.js      # Application entry point
 ├── package.json
 └── seed.js           # Database seeding script
@@ -45,9 +41,9 @@ backend/
 
 ## Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js
 - MongoDB
-- npm or yarn
+- npm
 
 ## Installation
 
@@ -65,14 +61,12 @@ cd backend
 npm install
 ```
 
-3. Create a `.env` file in the backend directory with the following variables:
+3. Create a `.env` file in the backend directory:
 
 ```
 PORT=5001
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-EMAIL_USER=your_email
-EMAIL_PASS=your_email_password
 ```
 
 4. Start the development server:
@@ -94,26 +88,20 @@ The server will start running on http://localhost:5001
 ### Activities
 
 - GET `/api/activities` - Get all activities
-- POST `/api/activities` - Create new activity
-- GET `/api/activities/:id` - Get activity by ID
-- PUT `/api/activities/:id` - Update activity
-- DELETE `/api/activities/:id` - Delete activity
 
 ### Bookings
 
-- GET `/api/bookings` - Get all bookings
-- POST `/api/bookings` - Create new booking
-- GET `/api/bookings/:id` - Get booking by ID
-- PUT `/api/bookings/:id` - Update booking
-- DELETE `/api/bookings/:id` - Delete booking
+- POST `/api/bookings/create-booking` - Create new booking (Protected)
+- GET `/api/bookings/my-bookings` - Get user's bookings (Protected)
 
 ## Security Features
 
 - Password hashing using bcrypt
 - JWT-based authentication
 - Input validation using Joi
+- Protected routes using middleware
 - CORS protection
-- Secure cookie handling
+- Cookie-based authentication
 
 ## Development
 
