@@ -5,9 +5,9 @@ import crypto from "crypto";
 import { sendPasswordResetEmail } from "../lib/email.js";
 
 export const signup = async (req, res) => {
-  const { email, fullName, password } = req.body;
+  const { email, fullName, phoneNumber, password } = req.body;
   try {
-    if (!fullName || !email || !password) {
+    if (!fullName || !email || !phoneNumber || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -29,6 +29,7 @@ export const signup = async (req, res) => {
     const newUser = new User({
       fullName,
       email,
+      phoneNumber,
       password: hashedPassword,
     });
 
@@ -132,9 +133,9 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { resetToken, newPassword } = req.body;
+    const { resetToken, newPassword, confirmNewPassword } = req.body;
 
-    if (!resetToken || !newPassword) {
+    if (!resetToken || !newPassword || !confirmNewPassword) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -142,6 +143,10 @@ export const resetPassword = async (req, res) => {
       return res.status(400).json({
         message: "Password must be at least 6 characters long",
       });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
     }
 
     const user = await User.findOne({
